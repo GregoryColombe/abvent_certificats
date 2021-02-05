@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Certificats Abvent</title>
+	<meta name="description"
+		content="Cardio is a free one page template made exclusively for Codrops by Luka Cvetinovic" />
+	<meta name="keywords" content="html template, css, free, one page, gym, fitness, web design" />
+	<meta name="author" content="Luka Cvetinovic for Codrops" />
+	<!-- Favicons (created with http://realfavicongenerator.net/)-->
+	<link rel="apple-touch-icon" sizes="57x57" href="img/favicons/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="img/favicons/apple-touch-icon-60x60.png">
+	<link rel="icon" type="image/png" href="img/favicons/logo.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="img/favicons/logo.png" sizes="16x16">
+	<link rel="manifest" href="img/favicons/manifest.json">
+	<link rel="shortcut icon" href="img/favicons/logo.png">
+	<meta name="msapplication-TileColor" content="#00a8ff">
+	<meta name="msapplication-config" content="img/favicons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+	<!-- Normalize -->
+	<link rel="stylesheet" type="text/css" href="css/normalize.css">
+	<!-- Bootstrap -->
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<!-- Owl -->
+	<link rel="stylesheet" type="text/css" href="css/owl.css">
+	<!-- Animate.css -->
+	<link rel="stylesheet" type="text/css" href="css/animate.css">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.1.0/css/font-awesome.min.css">
+	<!-- Elegant Icons -->
+	<link rel="stylesheet" type="text/css" href="fonts/eleganticons/et-icons.css">
+	<!-- Main style -->
+	<link rel="stylesheet" type="text/css" href="css/cardio.css">
+</head>
+
+<body>
+	<div class="preloader">
+		<img src="img/loader.gif" alt="Preloader image">
+	</div>
+	<nav class="navbar">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#"><img style="width: 25%;" src="img/logo.png" data-active-url="img/logo-active.png"
+						alt=""></a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right main-nav">
+					<li><a href="#accueil">Accueil</a></li>
+					<li><a href="#certificats">Certificats Abvent</a></li>
+					<!-- <li><a href="#team">Team</a></li>
+					<li><a href="#pricing">Pricing</a></li>
+					<li><a href="#" data-toggle="modal" data-target="#modal1" class="btn btn-blue">Sign Up</a></li> -->
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	<header id="accueil">
+		<div class="container">
+			<div class="table">
+				<div class="header-text">
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<h3 class="light white">Abvent certificats</h3>
+							<h1 class="white typed">Vérification des certificats SSL.</h1>
+							<span class="typed-cursor">|</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<section id="certificats" class="section section-padded">
+		<div class="container">
+			
+			<script>
+				let xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function () {
+					if (this.readyState == 4 && this.status == 200) {
+
+						//document.getElementById("demo").innerHTML = this.responseText;
+						let obj = this.responseText;
+						let obj1 = JSON.parse(obj);
+						console.log('Nb de sites : ' + obj1.length);
+						var nb_site = document.getElementById('nb_site');
+						nb_site.innerHTML = "<p class='nb_site'>" + obj1.length + " sites</p>"
+
+						let siteUpdate = []
+						let siteNoUpdate = []
+						let siteNoUpdateSoon = []
+
+						for (let i = 0; i < obj1.length; i++) {
+
+							console.log(obj1[i].name);
+
+							if (obj1[i].info.valid === true) {
+								var textvalid = '<span class="statut_update">Actif</span>';
+								var siteCertified = document.getElementById('siteCertified');
+								siteUpdate.push(' '+ obj1[i].name )
+								siteCertified.innerHTML = "<p class='liste_certificat liste_certificat_on'><span class='liste_certificat_title'>Certificats à jour : </span>" + siteUpdate + "</p>"
+								
+							} else {
+								var textvalid = '<span class="statut_not_update">Inactif</span>';
+
+								var siteNotCertified = document.getElementById('siteNotCertified');
+								siteNoUpdate.push(' '+ obj1[i].name )
+								siteNotCertified.innerHTML = "<p class='liste_certificat liste_certificat_off'><span class='liste_certificat_title'>Certificats expirés : </span>" + siteNoUpdate + "</p>"
+							}
+
+							if(obj1[i].info.daysRemaining <= 7 && obj1[i].info.valid === true){
+								console.log('yaa')
+								var siteToUpdateSoon = document.getElementById('siteToUpdateSoon');
+								siteNoUpdateSoon.push(' '+ obj1[i].name)
+								siteToUpdateSoon.innerHTML = "<p class='liste_certificat liste_certificat_off_soon'><span class='liste_certificat_title'>Expiration du certificat dans moins de 7 jours : </span>" + siteNoUpdateSoon + "</p>"
+							}
+
+							let validFromDate = obj1[i].info.validFrom
+							let validFromDateFormate = new Date(Date.parse(validFromDate)).toLocaleDateString();
+
+							let validToDate = obj1[i].info.validTo
+							let validToDateFormate = new Date(Date.parse(validToDate)).toLocaleDateString();
+
+							var objTo = document.getElementById('container');
+							var divtest = document.createElement("div");
+							divtest.className = "col-md-4";
+
+							divtest.innerHTML =
+								"<div class='service'><div class='icon-holder'><img src='img/icons/heart-blue.png' alt=' class='icon'></div><p class='heading'>" +
+								obj1[i].name + "</p> <p class='description'>Jours restants : <span class='textBold'>" + obj1[i].info.daysRemaining +
+								"</span> </p><p class='description'>Certificat : <span class='textvalid'>" + textvalid +
+								"</span></p><p class='description'>Date de création : " + validFromDateFormate +
+								"</p><p class='description'>Date d'expiration : " + validToDateFormate + "</p></div>";
+
+							objTo.appendChild(divtest);
+						}
+					}
+				};
+				xhttp.open("GET", "/js/data.json", true);
+				xhttp.send();
+			</script>
+
+
+			<div class="row text-center title">
+				<h2>Certificats Abvent</h2>
+				<h4 class="light muted">L'ensemble des certificats SSL des sites Abvent</h4>
+			</div>
+			<div class="light" id="siteCertified"></div><br>
+			<div class="light" id="siteNotCertified"></div><br>
+			<div class="light" id="siteToUpdateSoon"></div><br>
+			<div class="row" id="container"></div>
+		</div>
+		<div class="cut cut-bottom"></div>
+	</section>
+
+
+	<section id="team" class="section gray-bg">
+		<div class="container">
+			<div class="row title text-center">
+				<!-- <h2 class="margin-top">Actuellement</h2> -->
+				<p id="nb_site" style="margin-top: 8vh;"></p>
+				<h4 class="light muted" style="margin-bottom: 6vh;" >Disponibles actuellement</h4>
+			</div>
+			<div class="row bottom-footer text-center-mobile">
+					<div class="col-sm-8">
+						<p>&copy; 2019 All Rights Reserved. Create by <a href="http://www.abvent.com/">Abvent</a> </p>
+					</div>
+					<div class="col-sm-4 text-right text-center-mobile">
+						<ul class="social-footer">
+							<li><a href="https://www.facebook.com/abvent/"><i
+										class="fa fa-facebook"></i></a></li>
+							<li><a href="https://twitter.com/abvent"><i class="fa fa-twitter"></i></a></li>
+						</ul>
+					</div>
+				</div>
+		</div>
+	</section>
+	<!-- <section class="section section-padded blue-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2">
+					<div class="owl-twitter owl-carousel">
+						<div class="item text-center">
+							<i class="icon fa fa-twitter"></i>
+							<h4 class="white light">To enjoy the glow of good health, you must exercise.</h4>
+							<h4 class="light-white light">#health #training #exercise</h4>
+						</div>
+						<div class="item text-center">
+							<i class="icon fa fa-twitter"></i>
+							<h4 class="white light">To enjoy the glow of good health, you must exercise.</h4>
+							<h4 class="light-white light">#health #training #exercise</h4>
+						</div>
+						<div class="item text-center">
+							<i class="icon fa fa-twitter"></i>
+							<h4 class="white light">To enjoy the glow of good health, you must exercise.</h4>
+							<h4 class="light-white light">#health #training #exercise</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section> -->
+
+
+	<!-- <div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content modal-popup">
+				<a href="#" class="close-link"><i class="icon_close_alt2"></i></a>
+				<h3 class="white">Sign Up</h3>
+				<form action="" class="popup-form">
+					<input type="text" class="form-control form-white" placeholder="Full Name">
+					<input type="text" class="form-control form-white" placeholder="Email Address">
+					<div class="dropdown">
+						
+						<ul class="dropdown-menu animated fadeIn" role="menu" aria-labelledby="dLabel">
+							<li class="animated lightSpeedIn"><a href="#">1 month membership ($150)</a></li>
+							<li class="animated lightSpeedIn"><a href="#">3 month membership ($350)</a></li>
+							<li class="animated lightSpeedIn"><a href="#">1 year membership ($1000)</a></li>
+							<li class="animated lightSpeedIn"><a href="#">Free trial class</a></li>
+						</ul>
+					</div>
+					<div class="checkbox-holder text-left">
+						<div class="checkbox">
+							<input type="checkbox" value="None" id="squaredOne" name="check" />
+							<label for="squaredOne"><span>I Agree to the <strong>Terms &amp;
+										Conditions</strong></span></label>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-submit">Submit</button>
+				</form>
+			</div>
+		</div>
+	</div> -->
+	<!-- <footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 text-center-mobile">
+					<h3 class="white">Reserve a Free Trial Class!</h3>
+					<h5 class="light regular light-white">Shape your body and improve your health.</h5>
+					<a href="#" class="btn btn-blue ripple trial-button">Start Free Trial</a>
+				</div>
+				<div class="col-sm-6 text-center-mobile">
+					<h3 class="white">Opening Hours <span class="open-blink"></span></h3>
+					<div class="row opening-hours">
+						<div class="col-sm-6 text-center-mobile">
+							<h5 class="light-white light">Mon - Fri</h5>
+							<h3 class="regular white">9:00 - 22:00</h3>
+						</div>
+						<div class="col-sm-6 text-center-mobile">
+							<h5 class="light-white light">Sat - Sun</h5>
+							<h3 class="regular white">10:00 - 18:00</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row bottom-footer text-center-mobile">
+				<div class="col-sm-8">
+					<p>&copy; 2015 All Rights Reserved. Create by <a href="http://www.abvent.com/">Abvent</a> </p>
+				</div>
+				<div class="col-sm-4 text-right text-center-mobile">
+					<ul class="social-footer">
+						<li><a href="https://www.facebook.com/abvent/"><i
+									class="fa fa-facebook"></i></a></li>
+						<li><a href="https://twitter.com/abvent"><i class="fa fa-twitter"></i></a></li>
+						
+					</ul>
+				</div>
+			</div>
+		</div>
+	</footer> -->
+	<!-- Holder for mobile navigation -->
+	<div class="mobile-nav">
+		<ul>
+		</ul>
+		<a href="#" class="close-link"><i class="arrow_up"></i></a>
+	</div>
+	<!-- Scripts -->
+	<script src="js/jquery-1.11.1.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/wow.min.js"></script>
+	<script src="js/typewriter.js"></script>
+	<script src="js/jquery.onepagenav.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

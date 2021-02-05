@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <script src="js/script2.js"></script> -->
+
+</head>
+
+<body>
+    <div id="id01"></div>
+
+    <script>var xhttp = new XMLHttpRequest();
+
+xhttp.onreadystatechange = function () {
+  if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("demo").innerHTML = this.responseText;
+    var obj = this.responseText;
+    var obj1 = JSON.parse(obj);
+    a0 = obj1.a0;
+  }
+};
+
+xhttp.open("GET", "./js/data.json", true);
+xhttp.send();</script>
+
+    <script>// mettre site.json dans une variable
+// faire une boucle qui appelle checkSite sur tous les elements de la variable
+// checkSite (url) => valeur du certificat
+// enregistrer toutes les réponses dans results.json</script>
+</body>
+
+</html>
